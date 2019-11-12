@@ -10,7 +10,7 @@ class Fighter {
     //'contructor' is in all JS classes
     // It gets run immediately when a new object is created from a class
 
-    // Set all of our deafult values for this new fighter here
+    // Set all of our default values for this new fighter here
     this.name = name;
     this.hp = START_HP;
     this.sp = START_SP;
@@ -39,8 +39,8 @@ let Player0;
 let Player1;
 
 function startup() {
-  Player0 = new Fighter("Crash", "crashr");
-  Player1 = new Fighter("Sam", "saml");
+  Player0 = new Fighter(P0NAME, P0CHARA);
+  Player1 = new Fighter(P1NAME, P1CHARA);
 
   console.log("My name is " + Player0.name + " and my ATK is " + Player0.atk)
   console.log("My name is " + Player1.name + " and my ATK is " + Player1.atk)
