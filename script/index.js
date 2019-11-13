@@ -12,16 +12,6 @@ const P1CHARA = "saml"
 let playerTurn = false;
 let logging = true;
 
-let Player0;
-let Player1;
-
-let gameBox;
-let headerBox;
-let graphicsBox;
-let barsBox;
-let controlsBox;
-let outputBox;
-
 class Fighter {
   constructor(name, charaName) {
     //'contructor' is in all JS classes
@@ -50,6 +40,10 @@ class Fighter {
     console.log("Recovered!")
   }
 }
+
+
+let Player0;
+let Player1;
 
 function startup() {
   Player0 = new Fighter(P0NAME, P0CHARA);
