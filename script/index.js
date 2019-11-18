@@ -62,6 +62,13 @@ function startup() {
 
   console.log("My name is " + Player0.name + " and my ATK is " + Player0.atk)
   console.log("My name is " + Player1.name + " and my ATK is " + Player1.atk)
+  showcontrols()
+}
+
+function showcontrols() {
+if (playerTurn == false) {
+controlsBox.innerHTML = "<button onclick='Player0.single(Player1)' type ='button' name ='player0attack'>Single Attack</button>"
+}
 }
 
 
