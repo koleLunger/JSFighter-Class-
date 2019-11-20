@@ -48,6 +48,10 @@ class Fighter {
   //this logs who attacked who
   attack(target) {
     console.log(this.name + ' attacked ' + target.name);
+    let amount = 0
+    amount = Math.floor(Math.random() * 6)
+    console.log(this.name + " Dealt " + amount + ' damage to ' + target.name);
+    koCheck(target, amount)
   }
 
   single(target) {
@@ -106,9 +110,15 @@ function showControls() {
 //checks the target's HP is less than or equal to 0, Then retuns true or false.
 function koCheck(target, amount) {
   target.hp = target.hp - amount;
+  console.log(target.hp);
+  outputBox.innerHTML = target.name + " has " + target.hp + " Hp left"
   if (target.hp <= 0) {
+    hideContols()
+    console.log(target.name + " Is dead");
+    outputBox.innerHTML = "Sam is dead"
     return true;
   } else {
+    playerTurn = true
     return false;
   }
 }
