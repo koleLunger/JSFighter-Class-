@@ -66,8 +66,7 @@ class Fighter {
 }
 
 
-let Player0;
-let Player1;
+
 
 function startup() {
   Player0 = new Fighter(P0NAME, P0CHARA);
@@ -115,8 +114,12 @@ function koCheck(target, amount) {
 }
 
 
-function updateBars() {
+function updateBars(player, type, min, max) {
   //calculates the percent of HP
+  // (min/max) * percent = 100
+  // if (min <= 0){
+  //   percent = 0;
+  // }
   player0PercentHP = (Player0.hp / START_HP) * 100
   player1PercentHP = (Player1.hp / START_HP) * 100
   player0PercentHP = (Player0.sp / START_SP) * 100
