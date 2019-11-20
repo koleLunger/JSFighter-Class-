@@ -13,6 +13,23 @@ const P1CHARA = 'saml'
 let playerTurn = false;
 let logging = true;
 
+let Player0;
+let Player1;
+
+//varible for finding % of players HP used for the HealthBar
+let player0PercentHP;
+let player1PercentHP;
+let player0PercentSP;
+let player1PercentSP;
+
+// declared variables for the boxes
+let gameBox;
+let headerBox;
+let graphicsBox;
+let barsBox;
+let controlsBox;
+let outputBox;
+
 class Fighter {
   constructor(name, charaName) {
     //'contructor' is in all JS classes
