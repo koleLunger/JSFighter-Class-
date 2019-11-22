@@ -3,19 +3,15 @@ const START_SP = 10;
 const DEFAULT_ATK = 5;
 const DEFAULT_DEF = 5;
 const DEFAULT_TEK = 5;
-
 //sets constants names
 const P0NAME = 'Crash';
 const P0CHARA = 'crashr';
 const P1NAME = 'Sam';
 const P1CHARA = 'saml';
-
 let playerTurn = false;
 let logging = true;
-
 let Player0;
 let Player1;
-
 // declared variables for the boxes
 let gameBox;
 let headerBox;
@@ -28,7 +24,6 @@ class Fighter {
   constructor(name, charaName) {
     //'contructor' is in all JS classes
     // It gets run immediately when a new object is created from a class
-
     // Set all of our default values for this new fighter here
     this.name = name;
     this.hp = START_HP;
@@ -38,7 +33,6 @@ class Fighter {
     this.tek = DEFAULT_TEK;
     this.charaName = charaName;
   }
-
   //this logs who attacked who
   attack(target) {
     console.log(this.name + ' attacked ' + target.name); //logs attack
@@ -54,22 +48,20 @@ class Fighter {
       koCheck(target, damage); //runs ko check
     }
   }
-
   single(target) {
+    this.sp = this.sp + 1
     this.attack(target);
     endTurn();
   }
-
   double(target) {
+    this.sp = this.sp + 1
     this.attack(target);
     this.attack(target);
     endTurn();
   }
-
   //this logs that they recovered
   recover() {
     console.log('Recovered!');
-
     //save old text
     let oldtext = outputBox.innerHTML
     //if they have enough Sp
@@ -82,18 +74,15 @@ class Fighter {
        koCheck(this,-recovery);
        outputBox.innerHTML = this.name + ' Recovered ' + recovery;
     } else{
+      //if not enough sp than dont do anyything
       outputBox.innerHTML = "not enough SP"
-
     }
 endTurn()
   }
 }
-
-
 function startup() {
   Player0 = new Fighter(P0NAME, P0CHARA);
   Player1 = new Fighter(P1NAME, P1CHARA);
-
   //this makes a shortcut for 'document.getElementById'
   gameBox = document.getElementById('gameBox');
   headerBox = document.getElementById('headerBox');
@@ -101,21 +90,14 @@ function startup() {
   barsBox = document.getElementById('barsBox');
   controlsBox = document.getElementById('controlsBox');
   outputBox = document.getElementById('outputBox');
-
-
   //this shows the fighter images in the graphics box
   graphicsBox.innerHTML = '<img id ="' + Player0.charaName + '" src="img/' + Player0.charaName + '_idle.png" alt="' + Player0.name + '" class="fighterIMG">';
   graphicsBox.innerHTML += '<img id ="' + Player1.charaName + '" src="img/' + Player1.charaName + '_idle.png" alt="' + Player1.name + '" class="fighterIMG">';
-
-
   console.log('My name is ' + Player0.name + ' and my ATK is ' + Player0.atk);
   console.log('My name is ' + Player1.name + ' and my ATK is ' + Player1.atk);
-
-
   showControls(); //runs the showControls() function
   updateBars(); //runs the updateBars() function
 }
-
 function showControls() {
   //checks to see which players turn it is and show the apropriate controls
   if (playerTurn) {
@@ -128,27 +110,17 @@ function showControls() {
     controlsBox.innerHTML = '<button type="button" name="attack" onclick="Player0.single(Player1)">Single Attack!</button>';
     controlsBox.innerHTML += '<br><button type="button" name="attack" onclick="Player0.double(Player1)">Double Attack!</button><br>'
     controlsBox.innerHTML += '<br><button type="button" name="attack" onclick="Player0.recover(Player1)">Recover</button><br>'
-
-
   }
 }
 //checks the target's HP is less than or equal to 0, Then retuns true or false.
 function koCheck(target, amount) {
   target.hp = target.hp - amount;
-  console.log(target.hp);
-  outputBox.innerHTML = target.name + " has " + target.hp + " Hp left"
   if (target.hp <= 0) {
-    hideContols()
-    console.log(target.name + " Is dead");
-    outputBox.innerHTML = "Sam is dead"
     return true;
   } else {
-    playerTurn = true
     return false;
   }
 }
-
-
 //This function takes all the info to build an HP or SP bar, and ensure it is not greater than 100 or less than 0
 function updateBar(player, hpsp, min, max) {
   let calculated = ((min / max) * 100)
@@ -159,7 +131,6 @@ function updateBar(player, hpsp, min, max) {
   }
   return '<div class="' + hpsp + 'Bar"><div style="width:' + calculated + '%;" id="p0' + hpsp + 'Fill" class="' + hpsp + 'Fill">' + min + '</div></div>'
 }
-
 //This function makes the hp/sp bars and places them in the barsBox useing the updateBar
 function updateBars() {
   barsBox.innerHTML = updateBar(Player0, 'hp', Player0.hp, START_HP)
@@ -167,12 +138,10 @@ function updateBars() {
   barsBox.innerHTML += updateBar(Player1, 'hp', Player1.hp, START_HP)
   barsBox.innerHTML += updateBar(Player1, 'sp', Player1.sp, START_SP)
 }
-
 // EndTurn code
 function endTurn() {
   playerTurn = !playerTurn
   if (koCheck(Player0, 0) || koCheck(Player1, 0)){
-
     hideControls();
     updateBars();
   } else {
@@ -180,18 +149,10 @@ function endTurn() {
     updateBars();
   }
 }
-
-
 function hideControls() {
-
   controlsBox.innerHTML = '';
 }
-
-
 /*
-
 MHW = 'delicious'
-
 MHWoutput > MHWinput
-
 */
