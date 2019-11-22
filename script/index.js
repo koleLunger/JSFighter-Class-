@@ -49,10 +49,12 @@ class Fighter {
     }
   }
   single(target) {
+        this.sp = this.sp + 1
     this.attack(target);
     endTurn();
   }
   double(target) {
+        this.sp = this.sp + 1
     this.attack(target);
     this.attack(target);
     endTurn();
@@ -143,7 +145,6 @@ function endTurn() {
     hideControls();
     updateBars();
   } else {
-    this.sp = this.sp + 1
     showControls()
     updateBars();
   }
