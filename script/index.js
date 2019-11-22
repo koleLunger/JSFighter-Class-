@@ -143,11 +143,9 @@ function endTurn() {
     hideControls();
     updateBars();
   } else {
+    this.sp = this.sp + 1
     showControls()
     updateBars();
-  }
-  if () {
-    this.sp = this.sp + 1
   }
 }
 function hideControls() {
