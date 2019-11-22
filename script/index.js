@@ -49,12 +49,12 @@ class Fighter {
     }
   }
   single(target) {
-        this.sp = this.sp + 1
+    this.sp = this.sp + 1
     this.attack(target);
     endTurn();
   }
   double(target) {
-        this.sp = this.sp + 1
+    this.sp = this.sp + 1
     this.attack(target);
     this.attack(target);
     endTurn();
