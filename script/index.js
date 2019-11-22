@@ -146,7 +146,7 @@ function endTurn() {
     showControls()
     updateBars();
   }
-  if (this.sp == 10) {
+  if () {
     this.sp = this.sp + 1
   }
 }
