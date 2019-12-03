@@ -1,6 +1,6 @@
-const START_HP = 20;
-const START_SP = 10;
-const DEFAULT_ATK = 5;
+const START_HP = 100;
+const START_SP = 20;
+const DEFAULT_ATK = 10;
 const DEFAULT_DEF = 5;
 const DEFAULT_TEK = 5;
 //sets constants names
@@ -8,6 +8,10 @@ const P0NAME = 'Crash';
 const P0CHARA = 'crashr';
 const P1NAME = 'Sam';
 const P1CHARA = 'saml';
+
+const SPLOSS = 3
+const RECOVER = 2
+
 let playerTurn = false;
 let logging = true;
 let Player0;
@@ -35,19 +39,24 @@ class Fighter {
   }
   //this logs who attacked who
   attack(target) {
+    let oldText = outputBox.innerHTML; //save old text
     console.log(this.name + ' attacked ' + target.name); //logs attack
 
-    let damage = (Math.round(Math.random() + 1) * this.atk) //Does the attack with a random chance to be double. this is done by getting random number between one and zero, converts it to just one or zero and adds one to it making it randomly one or two. then it takes the one or two times the damage to deal random double damage
-    let reducedDamage = Math.round(damage / 4)
-    let dodge = Math.round(Math.random())
+    let damage = (Math.round(Math.random() + 1) * this.atk); //Does the attack with a random chance to be double. this is done by getting random number between one and zero, converts it to just one or zero and adds one to it making it randomly one or two. then it takes the one or two times the damage to deal random double damage
+    let reducedDamage = Math.round(damage / 6);
+    let dodge = Math.round(Math.random());
     if (dodge) {
-      outputBox.innerHTML += '<br>' + target.name + ' dodged ' + this.name + '\'s attack and was hit only hit for ' + reducedDamage + ' damage'; // outputs to the outputbox
+      outputBox.innerHTML = target.name + ' dodged ' + this.name + '\'s attack and was hit only hit for ' + reducedDamage + ' damage' + '<br><br>'; // outputs to the outputbox
+      outputBox.innerHTML += oldText;
+      outputBox.innerHTML += target.name + ' has ' + target.hp + ' health remaining' + '<br><br>';
       damage = reducedDamage
       document.getElementById(this.charaName).src = 'img/' + this.charaName + '_attack.png';
       document.getElementById(target.charaName).src = 'img/' + target.charaName + '_dodge.png';
       koCheck(target, damage); //runs ko check
     } else {
-      outputBox.innerHTML += '<br>' + this.name + ' attacked ' + target.name + ' for ' + damage + ' damage!' // outputs to the outputbox
+      outputBox.innerHTML = this.name + ' attacked ' + target.name + ' for ' + damage + ' damage!' + '<br><br>'; // outputs to the outputbox
+      outputBox.innerHTML += oldText;
+      outputBox.innerHTML += target.name + ' has ' + target.hp + ' health remaining' + '<br><br>';
       document.getElementById(this.charaName).src = 'img/' + this.charaName + '_attack.png';
       document.getElementById(target.charaName).src = 'img/' + target.charaName + '_hit.png';
       koCheck(target, damage); //runs ko check
@@ -58,8 +67,18 @@ class Fighter {
     endTurn();
   }
   double(target) {
-    this.attack(target);
-    this.attack(target);
+
+    //save old text
+    let oldText = outputBox.innerHTML
+
+    if(this.sp >= 5){
+      this.sp = this.sp - 5;
+      this.attack(target);
+      this.attack(target);
+    }else {
+        outputBox.innerHTML = "not enough SP" + '<br><br>';
+        outputBox.innerHTML += oldText;
+    }
     endTurn();
   }
   //this logs that they recovered
@@ -67,20 +86,23 @@ class Fighter {
     console.log('Recovered!');
     //save old text
     let oldtext = outputBox.innerHTML
+
     //if they have enough Sp
-    if (this.sp >=3) {
+
+    if (this.sp >= SPLOSS) {
       //minus 3 sp from total sp
-      this.sp = this.sp- 3;
+      this.sp = this.sp - SPLOSS;
       //calculate recovery
-       let recovery = this.tek * 2;
-       //heal player
-       koCheck(this,-recovery);
-       outputBox.innerHTML = this.name + ' Recovered ' + recovery;
-       document.getElementById(this.charaName).src = 'img/' + this.charaName + '_spell.png';
-    } else{
-      outputBox.innerHTML = "not enough SP"
+      let recovery = this.tek * RECOVER;
+      //heal player
+      koCheck(this, -recovery);
+      outputBox.innerHTML = this.name + ' Recovered ' + recovery + '<br><br>';
+      outputBox.innerHTML += oldText;
+    } else {
+      outputBox.innerHTML = "not enough SP" + '<br><br>';
+      outputBox.innerHTML += oldText;
     }
-endTurn()
+    endTurn();
   }
 }
 function startup() {
@@ -148,12 +170,21 @@ function updateBars() {
 }
 // EndTurn code
 function endTurn() {
-  playerTurn = !playerTurn
-  if (koCheck(Player0, 0) || koCheck(Player1, 0)){
+  playerTurn = !playerTurn;
+  //  adds 1 sp to the player who's turn is switched to
+  //  stops from overfilling
+  if (Player0.sp < START_SP) {
+    Player0.sp += !playerTurn;
+  }
+  if (Player1.sp < START_SP) {
+    Player1.sp += playerTurn;
+  }
+  if (koCheck(Player0, 0) || koCheck(Player1, 0)) {
     hideControls();
     updateBars();
   } else {
-    showControls()
+    showControls();
+
     updateBars();
   }
 }
